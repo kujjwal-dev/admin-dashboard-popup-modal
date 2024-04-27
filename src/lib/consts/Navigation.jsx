@@ -10,6 +10,9 @@ import {
 } from 'react-icons/hi'
 
 import { CgProfile } from "react-icons/cg";
+import { TbCategory } from "react-icons/tb";
+import { RiParentFill } from "react-icons/ri";
+import { FaUpload } from "react-icons/fa";
 
 export const DASHBOARD_SIDEBAR_LINKS = [
 	{
@@ -25,22 +28,22 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		icon: <CgProfile />
 	},
 	{
-		key: 'orders',
-		label: 'Orders',
-		path: '/orders',
-		icon: <HiOutlineShoppingCart />
+		key: 'parent',
+		label: 'Parent',
+		path: '/parent',
+		icon: <RiParentFill />
 	},
 	{
-		key: 'customers',
-		label: 'Customers',
-		path: '/customers',
-		icon: <HiOutlineUsers />
+		key: 'category',
+		label: 'Category',
+		path: '/category',
+		icon: <TbCategory />
 	},
 	{
-		key: 'transactions',
-		label: 'Transactions',
-		path: '/transactions',
-		icon: <HiOutlineDocumentText />
+		key: 'upload',
+		label: 'Upload',
+		path: '/upload',
+		icon: <FaUpload />
 	},
 	{
 		key: 'messages',

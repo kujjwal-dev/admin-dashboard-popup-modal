@@ -12,7 +12,7 @@ export default function () {
        const navigate = useNavigate()
 
   return (
-    <div className='bg-white h-16 px-4 flex justify-between items-center border-b border-gray-200'>
+    <div className='bg-white h-16 px-4 flex justify-between items-center border-b border-gray-200 sticky top-0 z-50'>
         <div className='relative'>
         <HiOutlineSearch fontSize={20} className='text-gray-400 absolute top-1/2 -translate-y-1/2 left-3'/>
 

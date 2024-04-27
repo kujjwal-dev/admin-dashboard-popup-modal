@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useState } from "react";
 
 
-const Modalpopup = () => {
+const Moderator = () => {
     const [open, setOpen] = React.useState(false);
     const functionOpenPopup = () => {
         setOpen(true);
@@ -31,9 +31,9 @@ const Modalpopup = () => {
 
     return(
         <div style={{textAlign: 'center'}}>
-            <Button onClick={functionOpenPopup} color="primary" variant="contained">Admin Form</Button>
+            <Button onClick={functionOpenPopup} color="primary" variant="contained">Moderator Form</Button>
             <Dialog open={open} onClose={functionClosePopup} fullWidth maxWidth="sm">
-            <DialogTitle>Admin Registration<IconButton onClick={functionClosePopup} style={{float:'right'}}><CloseIcon color='primary'></CloseIcon></IconButton></DialogTitle>
+            <DialogTitle>Moderator Registration<IconButton onClick={functionClosePopup} style={{float:'right'}}><CloseIcon color='primary'></CloseIcon></IconButton></DialogTitle>
             <DialogContent>
                 <Stack spacing={2} margin={2}>
                 <TextField label="Name" className='rounded-md' onChange={(e) => setName(e.target.value)} placeholder="Enter your name" variant="outlined" fullWidth/>
@@ -54,4 +54,4 @@ const Modalpopup = () => {
 }
 
 
-export default Modalpopup;
+export default Moderator;

@@ -9,7 +9,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 
 
 
-function Users() {
+function ModeratorTable() {
 
   const [users,setUsers] = useState([]);
 
@@ -125,14 +125,14 @@ setUsers(local)}
 
   return (
     
-      <div className='mx-auto'>
+      <div className=''>
 
         <ThemeProvider theme={getMuiTheme()}>
 
         
 
           <MUIDataTable
-        title={"Admins list"}
+        title={"Moderators list"}
         data={users}
         columns={columns}
         options={options}
@@ -146,4 +146,4 @@ setUsers(local)}
   )
 }
 
-export default Users
+export default ModeratorTable
