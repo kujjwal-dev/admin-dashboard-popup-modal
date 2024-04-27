@@ -1,81 +1,149 @@
-{/*import { Box, Typography } from "@mui/material";
-import React from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from 'react';
+import MUIDataTable from "mui-datatables";
+import { ThemeProvider, createTheme } from '@mui/material';
+
+
+
+
+
+
+
+
 function Users() {
-  return (<>
-  <Box 
-  sx={{
-    height:400,
-    width: '100%',
-  }}
-  >
-    <Typography
-    variant="h3"
-    component="h3"
-    sx={{
-        textAlign: 'center',
-        mt:3,
-        mb:3
-    }}
-    >
-        Manage users
-    </Typography>
-    <Data
-  </Box>
-  </>
-  )
-}
-export default Users */}
 
+  const [users,setUsers] = useState([]);
 
+  
+const columns = [{
 
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+  name: 'id',
+  label: "S.NO"
+},{
+  name: 'image',
+  label: "Profile",
+  options: {
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+    customBodyRender: (value) => (
+      <img src={value} alt="pic" className='w-12 h-12 rounded-full p-3 bg-slate-700' />
+    ),
+    filter: false
+  }
+},{
 
-const rows = [
-  createData('Jason', 'Jason23@gmail.com', 6.0, 24, 4.0),
-  createData('Sage', 'val8@gmail.com', 9.0, 37, 4.3),
-  createData('Eclair', "eclair@yahoo.com", 16.0, 24, 6.0),
+   name: 'name',
+   label: "Name",
+
+},{
+
+   name: 'age',
+   label: "Age"
+
+},
+{
+  name:'gender',
+  label: "Gender",
+  options:{
+    customBodyRender:(value)=> <p className=  'captialize px-3 py-1 bg-blue-500 inline-block rounded-full'>
+      {value}
+      </p>
+  }
+  
+},{
+  name:'domain',
+  label: "Domain",
+  options:{
+    customBodyRender:(value)=> (<a href ={'https://'+ value} 
+
+    target='_blank'
+    
+    className='bg-red-600 px-3 py-1 rounded-md'>Open</a>),
+
+    filter:false,
+      
+  }
+},
+
 ];
 
-export default function AccessibleTable() {
+    useEffect(() =>{
+      
+fetch('https://dummyjson.com/users')
+.then(res => res.json())
+.then(data => {
+  let local = data?.users?.map((user) => ({
+    ...user,
+
+    name: user?.firstName + ' ' + user?.lastName,
+  }))
+setUsers(local)}
+   
+   )
+            
+
+
+
+
+
+    },[])
+
+
+
+
+
+   
+   const options = {
+     selectableRows: false,
+     elevation: 0,
+     rowsPerPage: 5,
+     rowsPerPageOptions: [5,10,20,30],
+   };
+
+  const getMuiTheme = () => createTheme({
+    typography: { fontFamily: 'Poppins'},
+
+    palette: {background:{ paper: "#1e293b", default: "#0f162a"},
+
+    mode: "dark",
+
+  },
+  components: {
+    MuiTableCell:{
+      styleOverrides:{
+        head:{
+          padding:"10px 4px",
+
+        },
+        body:{
+          padding:"7px 15px",
+          color: "#e2e8f0",
+        }
+      }
+    }
+  }
+
+  })
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="caption table">
-        <caption>table</caption>
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell align="right">Email</TableCell>
-            <TableCell align="right">Role</TableCell>
-            <TableCell align="right">Created at</TableCell>
-            <TableCell align="right">Phone no</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+    
+      <div className='w-10/12'>
+
+        <ThemeProvider theme={getMuiTheme()}>
+
+        
+
+          <MUIDataTable
+        title={"Users List"}
+        data={users}
+        columns={columns}
+        options={options}
+      />
+        </ThemeProvider>
+      
+      </div>
+    
+    
+  
+  )
 }
+
+export default Users

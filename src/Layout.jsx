@@ -5,7 +5,7 @@ import Header from './component/Header'
 
 function Layout(){
     return(
-    <div className='flex flex-row bg-neutral-100 h-screen w-screen overflow-hidden'>
+    <div className='flex flex-row bg-neutral-100 h-screen w-screen overflow-x-scroll overflow-y-hidden'>
 
         <Sidebar />
         <div className='flex-1'>
