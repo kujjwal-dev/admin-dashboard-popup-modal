@@ -11,13 +11,47 @@ import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import StarBorder from '@mui/icons-material/StarBorder';
+import axios from 'axios';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 export default function CategoryList() {
   const [open, setOpen] = React.useState(true);
+  const [myData , setMyData] = useState([]);
+  const [isError, setIsError] = useState("");
 
   const handleClick = () => {
     setOpen(!open);
   };
+
+  async function get_main_category(){
+
+    try{
+      
+      const main_category = await axios.get('https://edx-backend-git.onrender.com/api/v1/category/get_main_category');
+      console.log("main category", main_category)
+      setMyData(main_category);
+
+    } catch(error){
+
+      setIsError(error.message);  
+
+
+
+    }
+
+  }
+
+  useEffect(()=> {
+    get_main_category();
+  } , []);
+
+
+console.log(myData);
+
+
+
+
 
   return (
     <List
@@ -30,52 +64,21 @@ export default function CategoryList() {
         </ListSubheader>
       }
     >
-      <ListItemButton>
-        
-        <ListItemText primary="Inspirational" />
+      {myData.map((category) => {
+
+        const {id,main_category} = category;
+
+
+
+      <ListItemButton key={id}>
+        <ListItemText>{main_category}</ListItemText>
       </ListItemButton>
-      <ListItemButton>
-        <ListItemText primary="Educational" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemText primary="Devotional" />
-      </ListItemButton>
-      <ListItemButton onClick={handleClick}>
-        <ListItemText primary="General" />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            
-            <ListItemText primary="Starred" />
-          </ListItemButton>
-        </List>
-      </Collapse>
-      <ListItemButton>
-        <ListItemText primary="Mythology" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemText primary="History/Politics" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemText primary="Cultural Science" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemText primary="Technology" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemText primary="Standard" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemText primary="Tools" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemText primary="Finance" />
-      </ListItemButton>
-      <ListItemButton>
-        <ListItemText primary="Career Growth" />
-      </ListItemButton>
+
+
+      })}
+      
+      
+      
     </List>
   );
 }

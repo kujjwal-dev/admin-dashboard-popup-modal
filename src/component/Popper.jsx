@@ -1,57 +1,157 @@
 import { CheckBox } from "@mui/icons-material";
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, IconButton, Stack, TextField } from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  FormControl,
+  FormControlLabel,
+  IconButton,
+  Stack,
+  TextField,
+} from "@mui/material";
 import React from "react";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
+import * as Yup from "yup";
+import { Formik, useFormik } from "formik";
 
+const initialValues = {
+  Name: "",
+  Phone: "",
+  Email: "",
+  Address: "",
+  Pancard: "",
+  
+};
 
-const Modalpopup = () => {
-    const [open, setOpen] = React.useState(false);
-    const functionOpenPopup = () => {
-        setOpen(true);
-    }
-    const functionClosePopup = () => {
-        setOpen(false);
-    }
+const validationSchema = Yup.object({
+  Name: Yup.string().required("Name is required"),
+  Phone: Yup.string()
+    .matches(/^\d{10}$/, "phone number must be 10 digits")
+    .required("Phone Number is required"),
+  Email: Yup.string()
+    .required("Email is required")
+    .email("Invalid email address"),
+  Address: Yup.string().required("Address is required"),
+  Pancard: Yup.string().required("Pancard is required"),
 
-    const[popUp,setPopUp]= useState(false);
-    const[name,setName]= useState('');
-    const[email,setEmail]= useState('');
-    const[phone,setPhone]= useState('');
-    const[address,setAddress]= useState('');
-    const[pancard,setPancard]= useState('');
+});
 
+const Moderator = () => {
+  const [open, setOpen] = React.useState(false);
+  const functionOpenPopup = () => {
+    setOpen(true);
+  };
+  const functionClosePopup = () => {
+    setOpen(false);
+  };
 
+  const [popUp, setPopUp] = useState(false);
 
-    console.log("name",name);
-    console.log("email",email);
-    console.log("phone",phone);
-    console.log("address",address);
-    console.log("pancard",pancard);
+  const { values, handleChange, handleSubmit, errors, touched } = useFormik({
+    initialValues: initialValues,
+    validationSchema: validationSchema,
+    onSubmit:(values) => {
+      console.log(values);
+    },
+  });
 
-    return(
-        <div style={{textAlign: 'center'}}>
-            <Button onClick={functionOpenPopup} color="primary" variant="contained">Admin Form</Button>
-            <Dialog open={open} onClose={functionClosePopup} fullWidth maxWidth="sm">
-            <DialogTitle>Admin Registration<IconButton onClick={functionClosePopup} style={{float:'right'}}><CloseIcon color='primary'></CloseIcon></IconButton></DialogTitle>
-            <DialogContent>
-                <Stack spacing={2} margin={2}>
-                <TextField label="Name" className='rounded-md' onChange={(e) => setName(e.target.value)} placeholder="Enter your name" variant="outlined" fullWidth/>
-                <TextField label="Phone" className='rounded-md' onChange={(e) => setPhone(e.target.value)} placeholder="Enter your phone no" variant="outlined" fullWidth/>
-                <TextField label="Email" className='rounded-md' onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" variant="outlined" fullWidth/>
-                <TextField label="Address" className='rounded-md' onChange={(e) => setAddress(e.target.value)} placeholder="Enter your address" variant="outlined" fullWidth/>
-                <TextField label="Pancard" className='rounded-md'onChange={(e) => setPancard(e.target.value)}  placeholder="Enter your pancard no" variant="outlined" fullWidth/>
-                <FormControlLabel control={<CheckBox  color="primary"></CheckBox>} label="Agree terms and conditions"></FormControlLabel>
-                <Button color="primary" variant="contained" >Submit</Button>
-                </Stack>
-            </DialogContent> 
-            <DialogActions>
-                {/*<Button onClick={functionClosePopup} color="error" variant="contained">Close</Button>*/}
-            </DialogActions>
-            </Dialog>
-        </div>
-    );
-}
+  return (
+    <div style={{ textAlign: "center" }}>
+      <Button onClick={functionOpenPopup} color="primary" variant="contained">
+        Admin Form
+      </Button>
+      <Dialog open={open} onClose={functionClosePopup} fullWidth maxWidth="sm">
+        <DialogTitle>
+          Admin Registration
+          <IconButton onClick={functionClosePopup} style={{ float: "right" }}>
+            <CloseIcon color="primary"></CloseIcon>
+          </IconButton>
+        </DialogTitle>
+        <DialogContent  >
+            <form onSubmit={handleSubmit}>
+          <Stack spacing={2} margin={2}>
+          
+            
+            <TextField
+              label="Name"
+              className="rounded-md"
+              placeholder="Enter your name"
+              variant="outlined"
+              name="Name"
+              fullWidth
+              value={values.Name}
+              onChange={handleChange}
+              error={touched.Name && Boolean(errors.Name)}
+              helperText={touched.Name && errors.Name}
+            />
+            <TextField
+              label="Phone"
+              className="rounded-md"
+              placeholder="Enter your phone no"
+              variant="outlined"
+              name="Phone"
+              fullWidth
+              value={values.Phone}
+              onChange={handleChange}
+              error={touched.Phone && Boolean(errors.Phone)}
+              helperText={touched.Phone && errors.Phone}
+            />
+            <TextField
+              label="Email"
+              className="rounded-md"
+              placeholder="Enter your email"
+              variant="outlined"
+              name="Email"
+              fullWidth
+              value={values.Email}
+              onChange={handleChange}
+              error={touched.Email && Boolean(errors.Email)}
+              helperText={touched.Email && errors.Email}
 
+            />
+            <TextField
+              label="Address"
+              className="rounded-md"
+              placeholder="Enter your address"
+              variant="outlined"
+              name="Address"
+              fullWidth
+              value={values.Address}
+              onChange={handleChange}
+              error={touched.Address && Boolean(errors.Address)}
+              helperText={touched.Address && errors.Address}
+            
+            />
+            <TextField
+              label="Pancard"
+              className="rounded-md"
+              placeholder="Enter your pancard no"
+              variant="outlined"
+              name="Pancard"
+              fullWidth
+              value={values.Pancard}
+              onChange={handleChange}
+              error={touched.Pancard && Boolean(errors.Pancard)}
+              helperText={touched.Pancard && errors.Pancard}
+            />
+            
+            <Button  type="submit" color="primary" variant="contained">
+              Submit
+            </Button>
+            
+          </Stack>
+          </form>
+        </DialogContent>
+        <DialogActions>
+          {/*<Button onClick={functionClosePopup} color="error" variant="contained">Close</Button>*/}
+        </DialogActions>
+      </Dialog>
+    </div>
+  );
+};
 
-export default Modalpopup;
+export default Moderator;
